@@ -1,0 +1,13 @@
+[Unit]
+Description=Home Assistant Container
+Wants=network-online.target
+After=network-online.target
+
+[Container]
+Image=ghcr.io/home-assistant/home-assistant:stable
+ContainerName=hass
+PublishPort=8123:8123
+Volume=hass.volume:/config:Z
+
+[Service]
+Restart=always

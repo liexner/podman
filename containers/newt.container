@@ -1,0 +1,12 @@
+[Unit]
+Description=Newt Container
+Wants=network-online.target
+After=network-online.target
+
+[Container]
+Image=docker.io/fosrl/newt
+ContainerName=newt
+EnvironmentFile=~/.config/containers/systemd/.env
+
+[Service]
+Restart=always

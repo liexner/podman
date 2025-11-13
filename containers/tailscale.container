@@ -1,0 +1,21 @@
+[Unit]
+Description=Tailscale VPN Container
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=docker.io/tailscale/tailscale:latest
+ContainerName=tailscale
+HostName=tailscale-container
+Network=host
+AddCapability=NET_ADMIN NET_RAW
+AddDevice=/dev/net/tun
+Volume=tailscale.volume:/var/lib/tailscale
+EnvironmentFile=~/.config/containers/systemd/.env
+Environment=TS_STATE_DIR=/var/lib/tailscale
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,1 @@
+sudo coreos-installer install /dev/sda --ignition-url http://<server-ip>:8000/config.ign --insecure-ignition
