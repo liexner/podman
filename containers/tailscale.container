@@ -10,8 +10,8 @@ HostName=tailscale-container
 Network=host
 AddCapability=NET_ADMIN NET_RAW
 AddDevice=/dev/net/tun
-Volume=tailscale.volume:/var/lib/tailscale
-EnvironmentFile=~/.config/containers/systemd/.env
+Volume=tailscale:/var/lib/tailscale
+EnvironmentFile=%h/.config/containers/systemd/.env
 Environment=TS_STATE_DIR=/var/lib/tailscale
 
 [Service]

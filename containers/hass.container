@@ -7,7 +7,7 @@ After=network-online.target
 Image=ghcr.io/home-assistant/home-assistant:stable
 ContainerName=hass
 PublishPort=8123:8123
-Volume=hass.volume:/config:Z
+Volume=hass:/config:Z
 
 [Service]
 Restart=always

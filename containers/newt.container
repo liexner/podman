@@ -6,7 +6,7 @@ After=network-online.target
 [Container]
 Image=docker.io/fosrl/newt
 ContainerName=newt
-EnvironmentFile=~/.config/containers/systemd/.env
+EnvironmentFile=%h/.config/containers/systemd/.env
 
 [Service]
 Restart=always

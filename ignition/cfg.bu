@@ -1,0 +1,43 @@
+variant: fcos
+version: 1.6.0
+passwd:
+  users:
+    - name: core
+      ssh_authorized_keys:
+        - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDMXkZg3UnDK11MppXcLu5u0saHtzcvdHQrS+CRUemiNg5NszhfzQ516F6gcm6Z/qULimVkqyz5JYRRWfKZUZ4qHaoiOxPs5Nrah6Y1FZK5saCd7Jdy0ZXHEIEeudDovyehJO2+9a7oweyMJOShkm+ImXNq/JQER7ux1HeH/MRdQInnhfW94SGaYvtfWNWfJXGQ94PEQ62JAG4fJgth3+wISNnp+D2l0+Lu3yf8YOvC4mKeEbyy9yesHZLscVgp0oiOD+T6sRrk36rJvrHG7hKhnbnRVKpXPy5+iCM0tzTw1yGpKTHCK8yXBm26l/FwTA25RuDSAXx7tlc+CHyG3PyVunozXKe0VLHD2133DgAKd1U7TEs4fWmUVXHaTOXsNa5jTKmOeoOxaLS3iASEmDj8wIHW8fbdFM2TmUZ+wvFqBHy9ovYOSCoeJe4sLqikOAwd6iiYYyYE/5dKM5qb0WeSh8H3EGxJSkVR3k8fKns3VdodanvJOUPMfIdtx62MJkU= liexner@tower
+    - name: liexner
+      ssh_authorized_keys:
+        - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDMXkZg3UnDK11MppXcLu5u0saHtzcvdHQrS+CRUemiNg5NszhfzQ516F6gcm6Z/qULimVkqyz5JYRRWfKZUZ4qHaoiOxPs5Nrah6Y1FZK5saCd7Jdy0ZXHEIEeudDovyehJO2+9a7oweyMJOShkm+ImXNq/JQER7ux1HeH/MRdQInnhfW94SGaYvtfWNWfJXGQ94PEQ62JAG4fJgth3+wISNnp+D2l0+Lu3yf8YOvC4mKeEbyy9yesHZLscVgp0oiOD+T6sRrk36rJvrHG7hKhnbnRVKpXPy5+iCM0tzTw1yGpKTHCK8yXBm26l/FwTA25RuDSAXx7tlc+CHyG3PyVunozXKe0VLHD2133DgAKd1U7TEs4fWmUVXHaTOXsNa5jTKmOeoOxaLS3iASEmDj8wIHW8fbdFM2TmUZ+wvFqBHy9ovYOSCoeJe4sLqikOAwd6iiYYyYE/5dKM5qb0WeSh8H3EGxJSkVR3k8fKns3VdodanvJOUPMfIdtx62MJkU= liexner@tower
+      groups:
+        - docker
+        - sudo
+storage:
+  files:
+    - path: /etc/hostname
+      mode: 0644
+      overwrite: true
+      contents:
+        inline: myhostname
+systemd:
+  units:
+    # Install Docker CE
+    - name: rpm-ostree-install-docker-ce.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Install Docker CE
+        Wants=network-online.target
+        After=network-online.target
+        Before=zincati.service
+        ConditionPathExists=!/var/lib/%N.stamp
+
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        ExecStart=/usr/bin/curl --output-dir "/etc/yum.repos.d" --remote-name https://download.docker.com/linux/fedora/docker-ce.repo
+        ExecStart=/usr/bin/rpm-ostree override remove moby-engine containerd runc docker-cli --install docker-ce
+        ExecStart=/usr/bin/touch /var/lib/%N.stamp
+        ExecStart=/usr/bin/systemctl --no-block reboot
+
+        [Install]
+        WantedBy=multi-user.target
