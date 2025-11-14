@@ -29,7 +29,7 @@
         "path": "/etc/hostname",
         "contents": {
           "compression": "",
-          "source": "data:,myhostname"
+          "source": "data:,elitedesk"
         },
         "mode": 420
       }

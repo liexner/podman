@@ -17,7 +17,7 @@ storage:
       mode: 0644
       overwrite: true
       contents:
-        inline: myhostname
+        inline: elitedesk
 systemd:
   units:
     # Install Docker CE
