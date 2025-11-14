@@ -29,7 +29,7 @@
         "path": "/etc/hostname",
         "contents": {
           "compression": "",
-          "source": "data:,elitedesk"
+          "source": "data:,ideapad"
         },
         "mode": 420
       }

@@ -17,7 +17,7 @@ storage:
       mode: 0644
       overwrite: true
       contents:
-        inline: elitedesk
+        inline: ideapad
 systemd:
   units:
     # Install Docker CE
